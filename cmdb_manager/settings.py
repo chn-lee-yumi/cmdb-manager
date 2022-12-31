@@ -24,7 +24,7 @@ SECRET_KEY = "django-insecure-@(3%itrfl()1jei+kr*-&pb-qqzch$d&3$+^h69i#9(_6!vk^w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["cmdb.gcc.ac.cn"]
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [

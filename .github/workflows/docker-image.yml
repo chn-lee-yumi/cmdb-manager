@@ -15,6 +15,10 @@ jobs:
 
     #- name: enable debug interface
     #  uses: chn-lee-yumi/debugger-action@master
+
+    - name: Disable debug
+      run: |
+        sed -i 's/DEBUG = True/DEBUG = False/' cmdb_manager/settings.py
         
     - name: Build Docker image
       run: |

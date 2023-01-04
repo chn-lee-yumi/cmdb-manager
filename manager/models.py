@@ -37,7 +37,7 @@ class Machine(models.Model):
     class Meta:
         db_table = 'machine'
 
-    id = models.CharField(max_length=36, primary_key=True)
+    # id = models.CharField(max_length=36, primary_key=True)
     main_ip = models.CharField(max_length=15)
     project = models.ForeignKey(Project, on_delete=models.PROTECT)  # 机器所属项目
     group = models.ForeignKey(Group, on_delete=models.PROTECT, null=True)  # 机器所属群组

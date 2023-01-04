@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-@(3%itrfl()1jei+kr*-&pb-qqzch$d&3$+^h69i#9(_6!vk^w"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["cmdb.gcc.ac.cn", "127.0.0.1"]
 
@@ -75,14 +75,16 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CSRF_TRUSTED_ORIGINS = ["http://cmdb.gcc.ac.cn:8082"]
+CSRF_TRUSTED_ORIGINS = ["http://cmdb.gcc.ac.cn:8082", "http://127.0.0.1:8081/"]
+
+LOGIN_REDIRECT_URL = "/"
 
 ROOT_URLCONF = "cmdb_manager.urls"
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / 'templates'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

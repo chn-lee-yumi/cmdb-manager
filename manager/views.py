@@ -1,15 +1,21 @@
+import json
+
+from django.http import HttpResponse
+from django.middleware.csrf import get_token
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import permissions
 from rest_framework.filters import SearchFilter
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 from cmdb_manager.settings import CACHE_TTL
 from .filter import MachineFilter, ProjectFilter, GroupFilter, RoleFilter
 from .models import Machine, Project, Group, Role, UserProjectPermission
 from .permissions import IsInProject
-from .serializers import MachineSerializer, ProjectSerializer, GroupSerializer, RoleSerializer
+from .serializers import MachineSerializer, ProjectSerializer, GroupSerializer, RoleSerializer, UserSerializer
 
 
 class CMDBModelViewSet(ModelViewSet):
@@ -79,7 +85,7 @@ class MachineViewSet(CMDBModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend, SearchFilter]
     filter_class = MachineFilter
-    filterset_fields = ['main_ip']
+    filterset_fields = ['main_ip', 'project', 'role', 'group']
     search_fields = ('main_ip',)
 
 
@@ -121,3 +127,16 @@ class RoleViewSet(CMDBModelViewSet):
         if has_exist_role:
             raise NameError('Role exists.')
         return super().create(request, *args, **kwargs)
+
+
+class CurrentUserView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
+
+
+def get_csrf_token(request):
+    token = get_token(request)
+    return HttpResponse(json.dumps({'token': token}), content_type="application/json,charset=utf-8")

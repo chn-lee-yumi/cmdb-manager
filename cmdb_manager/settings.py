@@ -75,7 +75,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CSRF_TRUSTED_ORIGINS = ["http://cmdb.gcc.ac.cn:8082", "http://127.0.0.1:8081/", "http://127.0.0.1:8001/"]
+CSRF_TRUSTED_ORIGINS = ["http://cmdb.gcc.ac.cn:8082", "http://cmdb.gcc.ac.cn:8081", "http://127.0.0.1:8081/", "http://127.0.0.1:8001/"]
 
 LOGIN_REDIRECT_URL = "/"
 

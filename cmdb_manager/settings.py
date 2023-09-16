@@ -107,9 +107,9 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "cmdb",
-        "HOST": "10.0.0.5",
-        "USER": "root",
-        "PASSWORD": "123456"
+        "HOST": "10.9.0.5",
+        "USER": "cmdb",
+        "PASSWORD": "cmdb"
     }
 }
 

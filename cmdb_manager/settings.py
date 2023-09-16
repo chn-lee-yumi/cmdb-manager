@@ -24,7 +24,7 @@ SECRET_KEY = "django-insecure-@(3%itrfl()1jei+kr*-&pb-qqzch$d&3$+^h69i#9(_6!vk^w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["cmdb.gcc.ac.cn", "127.0.0.1"]
+ALLOWED_HOSTS = ["cmdb.gcc.ac.cn", "127.0.0.1", "cmdb.gdutnic.com"]
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -41,7 +41,8 @@ REST_FRAMEWORK = {
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://10.0.0.5:6379',
+        # 'LOCATION': 'redis://10.0.0.5:6379',
+        'LOCATION': 'redis://10.9.0.4:6379',
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             # "PASSWORD": "yoursecret",
@@ -75,7 +76,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CSRF_TRUSTED_ORIGINS = ["http://cmdb.gcc.ac.cn:8082", "http://cmdb.gcc.ac.cn:8081", "http://127.0.0.1:8081/", "http://127.0.0.1:8001/"]
+CSRF_TRUSTED_ORIGINS = ["http://cmdb.gcc.ac.cn:8082", "http://cmdb.gcc.ac.cn:8081", "http://127.0.0.1:8081/", "http://127.0.0.1:8001/", "http://cmdb.gdutnic.com:8082", "http://cmdb.gdutnic.com:8081"]
 
 LOGIN_REDIRECT_URL = "/"
 

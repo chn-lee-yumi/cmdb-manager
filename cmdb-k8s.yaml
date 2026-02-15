@@ -1,0 +1,151 @@
+# service: cmdb-receiver
+apiVersion: v1
+kind: Service
+metadata:
+  name: cmdb-receiver
+spec:
+  selector:
+    name: cmdb-receiver
+  type: NodePort
+  ports:
+  - protocol: TCP
+    port: 8083
+    targetPort: 8083
+    nodePort: 30081
+---
+# service: cmdb-manager
+apiVersion: v1
+kind: Service
+metadata:
+  name: cmdb-manager-1 # TODO
+spec:
+  selector:
+    name: cmdb-manager
+  ports:
+  - protocol: TCP
+    port: 8000
+    targetPort: 8000
+---
+# service: cmdb-frontend
+apiVersion: v1
+kind: Service
+metadata:
+  name: cmdb-frontend
+spec:
+  selector:
+    name: cmdb-frontend
+  type: NodePort
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    nodePort: 30080
+---
+# cmdb-receiver
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cmdb-receiver
+  labels:
+    name: cmdb-receiver
+spec:
+  selector:
+    matchLabels:
+      name: cmdb-receiver
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        name: cmdb-receiver
+    spec:
+      containers:
+      - name: cmdb-receiver
+        image: registry.cn-guangzhou.aliyuncs.com/yumi-cmdb/cmdb-receiver:latest
+        resources:
+          requests:
+            cpu: 100m
+            memory: 40Mi
+---
+# cmdb-processor
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cmdb-processor
+  labels:
+    name: cmdb-processor
+spec:
+  selector:
+    matchLabels:
+      name: cmdb-processor
+  replicas: 4
+  template:
+    metadata:
+      labels:
+        name: cmdb-processor
+    spec:
+      containers:
+      - name: cmdb-processor
+        image: registry.cn-guangzhou.aliyuncs.com/yumi-cmdb/cmdb-processor:latest
+        resources:
+          limits:
+            cpu: 1
+            memory: 400Mi
+          requests:
+            cpu: 10m
+            memory: 40Mi
+---
+# cmdb-manager
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cmdb-manager
+  labels:
+    name: cmdb-manager
+spec:
+  selector:
+    matchLabels:
+      name: cmdb-manager
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        name: cmdb-manager
+    spec:
+      containers:
+      - name: cmdb-manager
+        image: registry.cn-guangzhou.aliyuncs.com/yumi-cmdb/cmdb-manager:latest
+        ports:
+          - name: http
+            containerPort: 8000
+        resources:
+          requests:
+            cpu: 100m
+            memory: 40Mi
+---
+# cmdb-frontend
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cmdb-frontend
+  labels:
+    name: cmdb-frontend
+spec:
+  selector:
+    matchLabels:
+      name: cmdb-frontend
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        name: cmdb-frontend
+    spec:
+      containers:
+      - name: cmdb-frontend
+        image: registry.cn-guangzhou.aliyuncs.com/yumi-cmdb/cmdb-frontend:latest
+        ports:
+          - name: http
+            containerPort: 80
+        resources:
+          requests:
+            cpu: 100m
+            memory: 40Mi
